@@ -1,2 +1,2 @@
 # Functions
-This is For Educational Purpose 
+This is For Educational Purposes 
