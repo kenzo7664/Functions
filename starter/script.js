@@ -114,3 +114,57 @@ const flightData = [583, "George Micheal"]
 book.apply(siwss, flightData)
 // same as 
 book.call(siwss, ...flightData)
+
+
+// Bind method
+const bookEW = book.bind(eurowings)
+const bookLH = book.bind(lufthansa)
+const bookLX = book.bind(siwss)
+bookEW(578, "frank lampard")
+
+const bookEW23 = book.bind(eurowings, 23)
+bookEW23("Toni Kroos")
+bookEW23("Jude Bellingham")
+// With Event Listeners
+lufthansa.planes = 300
+lufthansa.buyPlane = function () {
+    console.log(this);
+    this.planes++
+    console.log(this.planes);
+}
+document.querySelector('.buy').addEventListener('click', lufthansa.buyPlane.bind(lufthansa))
+// Partial application
+const addTax = (rate, value) => value + value * rate
+console.log(addTax(.10, 200));
+const addVAT = addTax.bind(null, 0.23)
+console.log(addVAT(3000));
+
+// Mini challenge on functions returning functions
+const taxValue = (rate) => (value) => value + value * rate
+const vatValue = taxValue(0.23)
+console.log(vatValue(100))
+console.log(vatValue(23))
+
+// Coding challenge 1 
+const poll = {
+    question: 'What is your favourite programming language?',
+    options: ['0: JavaScript', '1: Python', '2: Rust', '3: C++'],
+    // This generates [0, 0, 0, 0]. More in the next section 😃
+    answers: new Array(4).fill(0),
+    registerNewAnswer() {
+        let answer = Number(prompt(`${this.question}\n ${this.options.join('\n')}\n What is your answer`))
+        let finalAnswer = answer <= this.answers.length ? answer : alert("Wrong input!!! Reload to restart again")
+
+        typeof finalAnswer === "number" && finalAnswer <= this.answers.length && this.answers[finalAnswer]++;
+        this.displayResults()
+        this.displayResults("string")
+    },
+    displayResults(type = "array") {
+        type === "array" ? console.log(this.answers) : console.log(`Poll results are ${this.answers.join(', ')}`);
+    }
+}
+const pollChecker = poll.registerNewAnswer.bind(poll)
+document.querySelector(".poll").addEventListener('click', pollChecker)
+
+poll.displayResults.call({ answers: [7, 8, 6] })
+poll.displayResults.call({ answers: [7, 8, 6] }, "string")
