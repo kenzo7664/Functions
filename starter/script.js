@@ -1,5 +1,24 @@
 'use strict';
+// IIFE
+// Coding challenge 2
+(function () {
+    const header = document.querySelector('h1');
+    header.style.color = 'red';
 
+    const body = document.querySelector('body')
+    body.addEventListener("click", function () {
+        header.style.color = "blue"
+    })
+})()
+
+// (function () {
+//     console.log("This will never run again");
+// })();
+
+
+
+
+// (() => console.log("This will Also not run again"))()
 // Default Parameters
 const bookings = []
 const createBooking = function (flightNum, numPassengers = 1, price = 199 * numPassengers) {
@@ -114,3 +133,57 @@ const flightData = [583, "George Micheal"]
 book.apply(siwss, flightData)
 // same as 
 book.call(siwss, ...flightData)
+
+
+// Closures
+const secureBooking = function () {
+    let passengerCount = 0;
+
+    return function () {
+        passengerCount++
+        console.log(`${passengerCount} passengers`);
+    }
+}
+
+const booker = secureBooking()
+booker()
+booker()
+booker()
+console.dir(booker)
+
+// Example 1 of Closures
+let f;
+const g = function () {
+    const a = 23
+    f = function () {
+        console.log(a * 2);
+    }
+}
+const h = function () {
+    const b = 777
+    f = function () {
+        console.log(b * 2);
+    }
+}
+g()
+f()
+console.dir(f)
+// Re-assigning f function
+h()
+f()
+console.dir(f)
+
+// Example 2
+const boardPassengers = function (k, wait) {
+    const perGroup = k / 3;
+    setTimeout(function () {
+        console.log(`We are now boarding all ${k}`);
+        console.log(`There are 3 groups, each with ${perGroup} passengers`);
+    }, wait * 1000)
+    console.log(`Will start boarding in ${wait} secs`);
+}
+// to show the closure has priority over the scope chain 
+const perGroup = 800
+boardPassengers(180, 3)
+
+
